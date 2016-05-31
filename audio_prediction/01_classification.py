@@ -12,12 +12,21 @@ labfn = '../MultimodalFeatures/audioFeatures/cats.txt'
 lab = [l.split()[1] for l in file(labfn)]
 y = (np.array(lab)=='positive').astype('int')
 
+### MOUD original feature
+orifeatfn = '../MultimodalFeatures/audioFeatures/spanish.AudioFeatures.csv'
+oridict = {}
+for line in file(orifeatfn):
+    if line[0]=='i': continue
+    lst = line.split(',')
+    oridict[lst[0]] = [float(l) for l in lst[1:-1]]
+
 fnlst = [l.split()[0] for l in file(labfn)]
 batchlst = [l.split()[0].split('_')[0] for l in file(labfn)]
 xlst = []
 for fn in fnlst:
     x = file('opensmile_feat/'+fn+'.feat').readline().split(';')
-    xlst.append(x)
+    x2 = oridict[fn]
+    xlst.append(x+x2)
 X = np.array(xlst).astype('float')
 #X = batch_norm(X,np.array(batchlst))
 #print np.sum(X[:,0])
@@ -41,8 +50,8 @@ for Xtrain, ytrain, Xtest, ytest in KFold(X,y,5):
     #clf = LinearSVC(C=1)
     #clf = LinearSVC(C=1,penalty='l1',dual=False)
     #clf = LogisticRegression(C=1,penalty='l1')
-    clf = LogisticRegression(C=0.001) ### current best
-    #clf = LogisticRegression(C=1,penalty='l1')
+    #clf = LogisticRegression(C=0.001) ### current best
+    clf = LogisticRegression(C=0.001)
     #clf = SVC(C=10,gamma=0.01)
     clf.fit(Xtrain,ytrain)
     ypred = clf.predict(Xtest)

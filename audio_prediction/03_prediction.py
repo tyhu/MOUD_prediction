@@ -34,8 +34,8 @@ for Xtrain, ytrain, Xtest, ytest in KFold(X,y,5):
     #clf = SVC(C=1,kernel='linear')
     #print 'fold'
     #clf = LinearSVC(C=0.01,penalty='l1',dual=False)
-    clf = LinearSVC(C=0.01,penalty='l1',dual=False)
-    #clf = LogisticRegression(C=0.01)
+    #clf = LinearSVC(C=0.01,penalty='l1',dual=False)
+    clf = LogisticRegression(C=0.001)
     #clf = SVC(C=10,gamma=100)
     clf.fit(Xtrain,ytrain)
     ypred = clf.predict(Xtest)

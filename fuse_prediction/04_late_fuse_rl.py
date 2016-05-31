@@ -23,14 +23,14 @@ def score_scale2(score):
 
 def statefunc(currenttime,score_t,score_a,score_v,currpred_t,currpred_a,currpred_v,endbool):
     if endbool:
-        state = [0,0,0,0,1]
+        state = [0,0,0,0,0,1]
         #state = [0,0,0,0,0,0,0,1]
         #state= [0,0,0,0,0,1]
         return tuple(state)
     else:
         agree = 1 if currpred_t==currpred_a and currpred_a==currpred_v else 0
         #state = [currenttime,currpred_t,currpred_a,currpred_v,0]
-        state = [currenttime,currpred_t,currpred_a,currpred_v,0]
+        state = [agree,currenttime,currpred_t,currpred_a,currpred_v,0]
         #state = [currenttime,currpred_t,currpred_a,currpred_v,score_scale(score_t),score_scale2(score_a),score_scale(score_v),0]
         #state = [currenttime, agree, score_scale(score_t), score_scale2(score_a), score_scale(score_v),0]
         return tuple(state)
@@ -73,7 +73,7 @@ X_avs = np.concatenate((X_ts,X_as,X_vs,ls),axis=1)
 pred_sec_lst = [1,2,3,4,5,6,7,8]
 #pred_sec_lst = [1,2,3,4,5]
 totaltime = 0
-step_cost = -0.1
+step_cost = -0.0
 #ytest_total = []
 #ypred_total = []
 ytestlst = []
@@ -100,8 +100,8 @@ for Xtrain, ytrain, Xtest, ytest in KFold(X_avs,y,5):
             clf_t.fit(Xtrtr_t[:,:,-1],ytrtr)
             ytrpred = clf_t.predict(Xtrts_t[:,:,pred_idx])
             tpredlst.append(ytrpred.tolist())
-            #scores = clf_t.decision_function(Xtrts_t[:,:,pred_idx])
-            scores = clf_t.decision_function(Xtrts_t[:,:,-1])
+            scores = clf_t.decision_function(Xtrts_t[:,:,pred_idx])
+            #scores = clf_t.decision_function(Xtrts_t[:,:,-1])
             tscorelst.append(scores.tolist())
 
             ### audio mdp feature
@@ -174,8 +174,8 @@ for Xtrain, ytrain, Xtest, ytest in KFold(X_avs,y,5):
     clf_t_lst,clf_a_lst,clf_v_lst = [],[],[]
     for pred_idx, pred_sec in enumerate(pred_sec_lst):
         clf_t = LinearSVC(C=0.04)
-        #clf_t.fit(Xtr_t[:,:,pred_idx],ytrain)
-        clf_t.fit(Xtr_t[:,:,-1],ytrain)
+        clf_t.fit(Xtr_t[:,:,pred_idx],ytrain)
+        #clf_t.fit(Xtr_t[:,:,-1],ytrain)
         clf_t_lst.append(clf_t)
         clf_a = LogisticRegression(C=0.001)
         #clf_a.fit(Xtr_a[:,:,pred_idx],ytrain)

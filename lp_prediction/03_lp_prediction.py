@@ -1,4 +1,4 @@
-### Ting-Yao Hu
+### Ting-Yao Hu, 2016.05
 
 import sys
 import os
@@ -15,14 +15,14 @@ import copy
 
 K = float(sys.argv[1])
 
-X_ts = pickle.load(open(feat_dir+'text_seq.pkl'))
+#X_ts = pickle.load(open(feat_dir+'text_seq.pkl'))
 X_as = pickle.load(open(feat_dir+'audio_seq.pkl'))
-X_vs = pickle.load(open(feat_dir+'video_seq.pkl'))
+#X_vs = pickle.load(open(feat_dir+'video_seq.pkl'))
 y = pickle.load(open(feat_dir+'lab.pkl'))
 y_dummy = pickle.load(open(feat_dir+'lab.pkl'))
 l = pickle.load(open(feat_dir+'length.pkl'))
 
-datanum = X_ts.shape[0]
+datanum = X_as.shape[0]
 ls = np.zeros((datanum,1,10))
 for idx in range(10):
     ls[:,0,idx] = l
@@ -31,11 +31,12 @@ np.random.seed(1234)
 ls, y_dummy = RandomPerm(ls,y_dummy)
 np.random.seed(1234)
 X_as, y_dummy = RandomPerm(X_as,y_dummy)
-np.random.seed(1234)
-X_vs, y_dummy = RandomPerm(X_vs,y_dummy)
-np.random.seed(1234)
-X_ts, y = RandomPerm(X_ts,y)
+#np.random.seed(1234)
+#X_vs, y_dummy = RandomPerm(X_vs,y_dummy)
+#np.random.seed(1234)
+#X_ts, y = RandomPerm(X_ts,y)
 #X_avs = np.concatenate((X_ts,X_as,X_vs,ls),axis=1)
+#X_avs = np.concatenate((X_as,ls),axis=1)
 X_avs = np.concatenate((X_as,ls),axis=1)
 """
 count = 0
@@ -49,6 +50,8 @@ for idx in range(X_avs.shape[0]):
         print '=='
 """
 default_clf = LogisticRegression(C=0.001)
+#default_clf = LinearSVC(C=0.01,penalty='l1',dual=False)
+#default_clf = SVC(gamma=0.001,C=10)
 lcount = 0
 maxl = 5
 ytest_total = []

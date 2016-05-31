@@ -34,7 +34,7 @@ X = np.array(xlst).astype('float')
 np.random.seed(1234)
 X, y = RandomPerm(X,y)
 
-pred_sec_lst = [1,2,3,4,5]
+pred_sec_lst = [1,2,3,4,5,6,7,8]
 totaltime = 0
 step_cost = 0
 ytest_total = []

@@ -33,12 +33,12 @@ X, y = RandomPerm(X,y)
 ytest_total = []
 ypred_total = []
 
-for Xtrain, ytrain, Xtest, ytest in KFold(X,y,10):
+for Xtrain, ytrain, Xtest, ytest in KFold(X,y,5):
     #clf = LinearSVC(C=1,penalty='l1',dual=False)
-    #clf = LogisticRegression(C=10,penalty='l1')
-    #clf = LogisticRegression(C=0.1)
-    #clf = SVC(gamma=0.001,C=10)  ### current best, with featmean, no normalization
-    clf = SVC(gamma=0.001,C=10)
+    #clf = LogisticRegression(C=100,penalty='l1')
+    #clf = LogisticRegression(C=100000)
+    clf = SVC(gamma=0.001,C=10)  ### current best, with featmean, no normalization
+    #clf = SVC(gamma=0.001,C=10)
     clf.fit(Xtrain,ytrain)
     ypred = clf.predict(Xtest)
     print ypred

@@ -1,0 +1,5 @@
+util_dir = '/home2/tingyaoh/ML/PyAI/util/'
+keras_wrap_dir = '/home2/tingyaoh/ML/PyAI/deep_learn_keras/'
+feat_dir = '../multimodal_feat/'
+local_feat_dir = '../multimodal_localfeat/'
+early_predict_dir = '/home2/tingyaoh/ML/PyAI/early_prediction/'
